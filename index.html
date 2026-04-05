@@ -156,8 +156,7 @@
 <div class="check-list">
   <div class="check-row running" id="row-http">
     <div class="dot"></div>
-    <span class="check-name">Mixed-Content HTTP</span>
-    <span class="check-note">HTTP fetch from HTTPS page</span>
+    <span class="check-name">HTTP</span>
     <span class="check-status" id="st-http">checking…</span>
   </div>
   <div class="check-row running" id="row-js">
@@ -190,13 +189,10 @@
   </button>
   <button class="btn accent" onclick="startCamera('environment')">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2"/><path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg>
-    Back Cam
   </button>
 </div>
 <div id="video-wrap">
   <video id="video" autoplay playsinline muted></video>
-  <button id="cam-back-btn" onclick="stopCamera()">Back Cam</button>
-  <div id="cam-label">LIVE</div>
   <button id="video-close" onclick="stopCamera()">✕</button>
 </div>
 
@@ -248,9 +244,9 @@
     <div class="g-name"  id="g-display-name"></div>
     <div class="g-email" id="g-display-email"></div>
     <div class="g-badges">
-      <span class="g-badge">✓ Sign-in OK</span>
-      <span class="g-badge blue">Popup ✓</span>
-      <span class="g-badge blue">postMessage ✓</span>
+      <span class="g-badge">Sign-in</span>
+      <span class="g-badge">Popup</span>
+      <span class="g-badge">postMessage</span>
     </div>
     <div class="g-token-row">
       <div class="g-token-label">OAuth Token (mock)</div>
@@ -315,7 +311,7 @@ fetch('http://neverssl.com/', {method:'HEAD', mode:'no-cors',
   .catch(function(err){
     var m = (err.message||'');
     setRow('http', false,
-      /mixed|insecure|blocked|Failed/i.test(m) ? 'BLOCKED (normal)' : 'UNREACHABLE');
+      /mixed|insecure|blocked|Failed/i.test(m) ? 'FAIL' : 'UNREACHABLE');
   });
 
 /* ─── camera ─── */
@@ -327,7 +323,7 @@ function startCamera(mode) {
       currentStream = s;
       document.getElementById('video').srcObject = s;
       document.getElementById('video-wrap').style.display = 'block';
-      document.getElementById('cam-label').textContent = mode==='user' ? '● SELFIE' : '● LIVE';
+      document.getElementById('cam-label').textContent = mode==='user' ?
     }).catch(function(e){ alert('Camera error: '+e.message); });
 }
 function stopCamera() {
