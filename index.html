@@ -309,7 +309,7 @@ fetch('http://neverssl.com/', {method:'HEAD', mode:'no-cors',
   .catch(function(err){
     var m = (err.message||'');
     setRow('http', false,
-      /mixed|insecure|blocked|Failed/i.test(m) ? 'FAIL' : 'UNREACHABLE');
+      /mixed|insecure|blocked|Failed/i.test(m) ? 'BLOCKED (normal)' : 'UNREACHABLE');
   });
 
 /* ─── camera ─── */
