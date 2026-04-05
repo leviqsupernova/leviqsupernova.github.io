@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Browser Diagnostics</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Zen+Dots:wght@400;700;800&display=swap" rel="stylesheet">
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
   :root {
     --bg: #080c10;
@@ -19,7 +18,6 @@
     --pending: #ffab00;
     --mono: 'Share Tech Mono', monospace;
     --display: 'Zen Dots', sans-serif;
-    --pix: '
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -137,13 +135,8 @@
 
   .btn:active { background: #131e28; }
   .btn:hover { border-color: var(--accent); color: #fff; }
-
   .btn svg { flex-shrink: 0; }
-
-  .btn.accent {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
+  .btn.accent { border-color: var(--accent); color: var(--accent); }
 
   .btn.google-btn {
     grid-column: span 2;
@@ -155,12 +148,9 @@
     padding: 14px;
   }
   .btn.google-btn:hover { background: #1e2b42; }
+  .btn.google-btn:disabled { opacity: .5; cursor: not-allowed; }
 
   /* Camera preview */
-  #camera-section {
-    margin-top: 0;
-  }
-
   #video-wrap {
     display: none;
     background: #000;
@@ -170,14 +160,12 @@
     margin-top: 10px;
     position: relative;
   }
-
   #video-wrap video {
     width: 100%;
     max-height: 280px;
     object-fit: cover;
     display: block;
   }
-
   #video-close {
     position: absolute;
     top: 8px; right: 8px;
@@ -191,7 +179,6 @@
     display: flex; align-items: center; justify-content: center;
     font-family: var(--mono);
   }
-
   #cam-label {
     position: absolute;
     bottom: 8px; left: 10px;
@@ -205,7 +192,6 @@
 
   /* File section */
   #file-input { display: none; }
-
   #file-info {
     margin-top: 8px;
     padding: 10px 14px;
@@ -216,23 +202,125 @@
     color: var(--muted);
     display: none;
   }
-
   #file-info.visible { display: block; }
   #file-info .fname { color: var(--accent); font-size: 12px; }
 
-  /* Google sign-in result */
+  /* Google sign-in */
+  .g-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .g-inputs input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 8px 10px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .g-inputs input::placeholder { color: var(--muted); }
+  .g-inputs input:focus { border-color: #4285F4; }
+
+  .g-hint {
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+  .g-hint a { color: #4285F4; text-decoration: none; }
+
   #g-result {
     margin-top: 8px;
-    padding: 10px 14px;
+    padding: 12px 14px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 6px;
     font-size: 11px;
     color: var(--muted);
     display: none;
+    gap: 10px;
   }
-  #g-result.visible { display: block; }
-  #g-result .gname { color: var(--pass); font-size: 13px; }
+  #g-result.visible { display: flex; align-items: flex-start; }
+
+  .g-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4285F4, #34A853);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    font-family: sans-serif;
+    color: #fff;
+    font-weight: bold;
+  }
+  .g-info { flex: 1; }
+  .g-name  { color: var(--pass); font-size: 13px; margin-bottom: 2px; }
+  .g-email { color: var(--muted); font-size: 11px; margin-bottom: 4px; }
+  .g-badge {
+    display: inline-block;
+    background: rgba(0,230,118,.1);
+    border: 1px solid rgba(0,230,118,.3);
+    color: var(--pass);
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .g-token-row {
+    margin-top: 6px;
+    font-size: 10px;
+    color: var(--muted);
+    word-break: break-all;
+    background: #060a0d;
+    border-radius: 4px;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+  }
+  .g-token-label {
+    color: var(--accent);
+    font-size: 9px;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+  }
+
+  #g-spinner {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--pending);
+  }
+  #g-spinner.visible { display: flex; }
+  .spin {
+    width: 12px; height: 12px;
+    border: 2px solid rgba(255,171,0,.3);
+    border-top-color: var(--pending);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  #g-error {
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: rgba(255,61,107,.08);
+    border: 1px solid rgba(255,61,107,.3);
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--fail);
+    display: none;
+  }
+  #g-error.visible { display: block; }
 
   .divider {
     border: none;
@@ -242,6 +330,29 @@
 </style>
 </head>
 <body>
+
+<script>
+/* ── OAUTH POPUP CALLBACK DETECTION ────────────────────────────
+   If this page is loaded inside the OAuth popup (i.e. the mock
+   server redirected back here with a token in the hash/query),
+   forward it to the opener and close immediately.             */
+(function detectCallback(){
+  try {
+    const hash   = new URLSearchParams(window.location.hash.slice(1));
+    const search = new URLSearchParams(window.location.search);
+    const token  = hash.get('access_token') || search.get('access_token');
+    const err    = hash.get('error')        || search.get('error');
+
+    if ((token || err) && window.opener) {
+      window.opener.postMessage(
+        { __oauthCallback: true, token: token || null, error: err || null },
+        '*'
+      );
+      window.close();
+    }
+  } catch(e) { /* cross-origin guard – shouldn't happen */ }
+})();
+</script>
 
 <header>
   <h1>BROWSER DIAG</h1>
@@ -281,13 +392,15 @@
 <hr class="divider">
 
 <!-- CAMERA -->
-<div class="section-label" id="camera-section">Camera</div>
+<div class="section-label">Camera</div>
 <div class="btn-grid">
   <button class="btn accent" onclick="startCamera('user')">
-   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-camera-selfie"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2" /><path d="M9.5 15a3.5 3.5 0 0 0 5 0" /><path d="M15 11l.01 0" /><path d="M9 11l.01 0" /></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2"/><path d="M9.5 15a3.5 3.5 0 0 0 5 0"/><path d="M15 11l.01 0"/><path d="M9 11l.01 0"/></svg>
+    Selfie
   </button>
   <button class="btn accent" onclick="startCamera('environment')">
-   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-camera"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2" /><path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg> </button>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2"/><path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/></svg>
+    Back Cam
   </button>
 </div>
 
@@ -303,11 +416,11 @@
 <div class="section-label">File Transfer</div>
 <div class="btn-grid">
   <button class="btn" onclick="document.getElementById('file-input').click()">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-upload"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 9l5 -5l5 5" /><path d="M12 4l0 12" /></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/><path d="M7 9l5 -5l5 5"/><path d="M12 4l0 12"/></svg>
     Upload File
   </button>
   <button class="btn" id="dl-btn" onclick="downloadFile()" disabled style="opacity:.4">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-download"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M20 16a1 1 0 0 1 1 1v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-2a1 1 0 0 1 2 0v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1 -1v-2a1 1 0 0 1 1 -1m-8 -13a1 1 0 0 1 1 1v9.585l3.293 -3.292a1 1 0 0 1 1.414 1.414l-5 5a1 1 0 0 1 -.09 .08l.09 -.08a1 1 0 0 1 -.674 .292l-.033 .001h-.032l-.054 -.004l.086 .004a1 1 0 0 1 -.617 -.213a1 1 0 0 1 -.09 -.08l-5 -5a1 1 0 0 1 1.414 -1.414l3.293 3.292v-9.585a1 1 0 0 1 1 -1" /></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20 16a1 1 0 0 1 1 1v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3v-2a1 1 0 0 1 2 0v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1 -1v-2a1 1 0 0 1 1 -1m-8 -13a1 1 0 0 1 1 1v9.585l3.293 -3.292a1 1 0 0 1 1.414 1.414l-5 5a1 1 0 0 1 -.09 .08l.09 -.08a1 1 0 0 1 -.674 .292l-.033 .001h-.032l-.054 -.004l.086 .004a1 1 0 0 1 -.617 -.213a1 1 0 0 1 -.09 -.08l-5 -5a1 1 0 0 1 1.414 -1.414l3.293 3.292v-9.585a1 1 0 0 1 1 -1"/></svg>
     Download
   </button>
 </div>
@@ -316,10 +429,21 @@
 
 <hr class="divider">
 
-<!-- GOOGLE -->
-<div class="section-label">Authentication</div>
+<!-- GOOGLE SIGN-IN (Mock OAuth via oauth.kogiqa.com) -->
+<div class="section-label">Authentication — Google OAuth</div>
+
+<p class="g-hint">
+  Uses <a href="https://oauth.kogiqa.com" target="_blank">oauth.kogiqa.com</a> — a real OIDC-compliant mock that mirrors Google's exact auth endpoints and popup flow.<br>
+  Pre-fill a name &amp; email below, or leave blank for a random test user.
+</p>
+
+<div class="g-inputs">
+  <input id="g-name"  type="text" placeholder="Name (optional)"  autocomplete="off">
+  <input id="g-email" type="email" placeholder="Email (optional)" autocomplete="off">
+</div>
+
 <div class="btn-grid">
-  <button class="btn google-btn" onclick="triggerGoogle()">
+  <button class="btn google-btn" id="g-btn" onclick="triggerGoogleOAuth()">
     <svg width="18" height="18" viewBox="0 0 48 48">
       <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
       <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
@@ -329,13 +453,25 @@
     Sign in with Google
   </button>
 </div>
-<div id="g-result"></div>
 
-<!-- hidden Google One Tap container -->
-<div id="g_id_onload"
-  data-client_id="YOUR_GOOGLE_CLIENT_ID"
-  data-callback="onGoogleSignIn"
-  data-auto_prompt="false">
+<div id="g-spinner">
+  <div class="spin"></div>
+  <span id="g-spinner-msg">Opening OAuth popup…</span>
+</div>
+
+<div id="g-error"></div>
+
+<div id="g-result">
+  <div class="g-avatar" id="g-avatar">?</div>
+  <div class="g-info">
+    <div class="g-name"  id="g-display-name"></div>
+    <div class="g-email" id="g-display-email"></div>
+    <span class="g-badge">✓ OAuth Verified</span>
+    <div class="g-token-row">
+      <div class="g-token-label">Access Token (truncated)</div>
+      <div id="g-token-preview"></div>
+    </div>
+  </div>
 </div>
 
 <br>
@@ -357,6 +493,10 @@ function setRow(id, pass, label){
   st.textContent = label || (pass ? 'PASS' : 'FAIL');
 }
 
+function escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
 /* ── 1. JAVASCRIPT ──────────────────────────────────────────── */
 setRow('js', true, 'PASS');
 
@@ -374,34 +514,17 @@ setRow('js', true, 'PASS');
 
 /* ── 3. THIRD-PARTY COOKIES ─────────────────────────────────── */
 (function(){
-  // Strategy: load a tiny iframe from a cross-origin and postMessage the result
-  // We embed a blob that tries to set + read a cookie, but since blob: is opaque
-  // for 3P checking, we instead use the Storage Access API as the signal.
-  // Additionally we try a fetch to httpbin with credentials.
-  
   let resolved = false;
 
-  // Method A: Storage Access API (Chrome 119+)
-  if(document.hasStorageAccess){
-    document.hasStorageAccess().then(has => {
-      // Top-level document always has storage access.
-      // Use requestStorageAccessFor if available (Chrome 122+).
-    });
-  }
-
-  // Method B: iframe postMessage trick using a null-origin blob
   const html = `<script>
     try {
       document.cookie = "tptest=1; SameSite=None; Secure; path=/";
-      const has = document.cookie.indexOf("tptest") !== -1;
-      parent.postMessage({tpCookies: has}, "*");
-    } catch(e){
-      parent.postMessage({tpCookies: false}, "*");
-    }
+      parent.postMessage({tpCookies: document.cookie.indexOf("tptest") !== -1}, "*");
+    } catch(e){ parent.postMessage({tpCookies:false}, "*"); }
   <\/script>`;
 
-  const blob = new Blob([html], {type:'text/html'});
-  const url  = URL.createObjectURL(blob);
+  const blob  = new Blob([html], {type:'text/html'});
+  const url   = URL.createObjectURL(blob);
   const frame = document.createElement('iframe');
   frame.style.display = 'none';
   frame.src = url;
@@ -411,22 +534,14 @@ setRow('js', true, 'PASS');
     if(e.data && typeof e.data.tpCookies !== 'undefined'){
       resolved = true;
       window.removeEventListener('message', handler);
-      frame.remove();
-      URL.revokeObjectURL(url);
-      setRow('3p', e.data.tpCookies,
-        e.data.tpCookies ? 'PASS' : 'BLOCKED');
+      frame.remove(); URL.revokeObjectURL(url);
+      setRow('3p', e.data.tpCookies, e.data.tpCookies ? 'PASS' : 'BLOCKED');
     }
   });
 
-  // Fallback timeout: if iframe doesn't respond, assume blocked
   setTimeout(()=>{
     if(!resolved){
-      resolved = true;
-      frame.remove();
-      URL.revokeObjectURL(url);
-      // Check Chrome Privacy Sandbox flag heuristic
-      const blocked = !navigator.cookieEnabled ||
-        (window.chrome && window.chrome.privacy !== undefined);
+      resolved = true; frame.remove(); URL.revokeObjectURL(url);
       setRow('3p', false, 'UNDETECTABLE');
     }
   }, 2000);
@@ -434,22 +549,15 @@ setRow('js', true, 'PASS');
 
 /* ── 4. HTTP CONNECTION ─────────────────────────────────────── */
 (function(){
-  const endpoint = 'http://neverssl.com/'; // Plain HTTP endpoint
-  fetch(endpoint, {
-    method: 'HEAD',
-    mode: 'no-cors',
-    cache: 'no-store',
+  fetch('http://neverssl.com/', {
+    method: 'HEAD', mode: 'no-cors', cache: 'no-store',
     signal: AbortSignal.timeout(6000)
   })
-  .then(() => {
-    setRow('http', true, 'CONNECTED');
-  })
+  .then(() => setRow('http', true, 'CONNECTED'))
   .catch(err => {
-    // Mixed-content block → TypeError, network fail → TypeError too
-    // Distinguish by message if possible
     const msg = err.message || '';
-    const blocked = msg.includes('mixed') || msg.includes('insecure') ||
-                    msg.includes('blocked') || msg.includes('Failed');
+    const blocked = msg.includes('mixed')||msg.includes('insecure')||
+                    msg.includes('blocked')||msg.includes('Failed');
     setRow('http', false, blocked ? 'MIXED-CONTENT BLOCKED' : 'UNREACHABLE');
   });
 })();
@@ -464,8 +572,7 @@ async function startCamera(mode){
   const label = document.getElementById('cam-label');
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: mode } },
-      audio: false
+      video: { facingMode: { ideal: mode } }, audio: false
     });
     currentStream = stream;
     video.srcObject = stream;
@@ -481,15 +588,12 @@ function stopCamera(){
     currentStream.getTracks().forEach(t => t.stop());
     currentStream = null;
   }
-  const wrap = document.getElementById('video-wrap');
-  const video = document.getElementById('video');
-  video.srcObject = null;
-  wrap.style.display = 'none';
+  document.getElementById('video').srcObject = null;
+  document.getElementById('video-wrap').style.display = 'none';
 }
 
 /* ── FILE UPLOAD / DOWNLOAD ─────────────────────────────────── */
-let uploadedFile = null;
-let uploadedURL  = null;
+let uploadedFile = null, uploadedURL = null;
 
 function onFileChosen(e){
   const file = e.target.files[0];
@@ -498,63 +602,189 @@ function onFileChosen(e){
   if(uploadedURL) URL.revokeObjectURL(uploadedURL);
   uploadedURL = URL.createObjectURL(file);
 
-  const info = document.getElementById('file-info');
+  const info  = document.getElementById('file-info');
   const dlBtn = document.getElementById('dl-btn');
+  const kb    = (file.size / 1024).toFixed(1);
 
-  const kb = (file.size / 1024).toFixed(1);
-  info.innerHTML = `<div class="fname">${escHtml(file.name)}</div>` +
-    `<div>${file.type || 'unknown type'} · ${kb} KB</div>` +
+  info.innerHTML =
+    `<div class="fname">${escHtml(file.name)}</div>` +
+    `<div>${file.type||'unknown type'} · ${kb} KB</div>` +
     `<div style="color:var(--pass);margin-top:4px">✓ Ready for download</div>`;
   info.classList.add('visible');
-
-  dlBtn.disabled = false;
-  dlBtn.style.opacity = '1';
+  dlBtn.disabled = false; dlBtn.style.opacity = '1';
 }
 
 function downloadFile(){
   if(!uploadedURL || !uploadedFile) return;
   const a = document.createElement('a');
-  a.href = uploadedURL;
-  a.download = uploadedFile.name;
-  a.click();
+  a.href = uploadedURL; a.download = uploadedFile.name; a.click();
 }
 
-function escHtml(s){
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+/* ── GOOGLE MOCK OAUTH ──────────────────────────────────────────
+   Flow:
+     1. Build the kogiqa.com auth URL (mirrors Google's real endpoint).
+     2. Open it in a centred popup — same UX as production Google Sign-In.
+     3. The mock redirects back to THIS page with ?access_token=… in the URL.
+     4. The top-of-page callback detector forwards the token via postMessage
+        and closes the popup.
+     5. We receive the token, call kogiqa's userinfo endpoint, and render
+        the verified profile card.
+
+   This exercises:
+     • Popup opening (blocked? → fail)
+     • Cross-origin postMessage
+     • Fetch with Authorization header
+     • OIDC userinfo response parsing
+   — the exact same code path any real Google OAuth integration uses.    */
+
+const MOCK_BASE    = 'https://oauth.kogiqa.com';
+const MOCK_AUTH    = MOCK_BASE + '/o/oauth2/v2/auth';
+const MOCK_UINFO   = MOCK_BASE + '/oauth2/v1/userinfo';
+const MOCK_CLIID   = 'browser-diag-test';   // value doesn't matter for mock
+const POPUP_NAME   = 'GoogleOAuthDiag';
+
+let oauthPopup     = null;
+let popupWatchdog  = null;
+let msgListener    = null;
+
+function setGSpinner(show, msg){
+  const el = document.getElementById('g-spinner');
+  el.classList.toggle('visible', show);
+  if(msg) document.getElementById('g-spinner-msg').textContent = msg;
 }
 
-/* ── GOOGLE SIGN-IN ─────────────────────────────────────────── */
-function triggerGoogle(){
-  if(typeof google === 'undefined' || !google.accounts){
-    // GSI not loaded yet or CLIENT_ID not set — show OAuth URL
-    const note = document.getElementById('g-result');
-    note.innerHTML = `<div style="color:var(--pending)">⚠ Configure a real Google Client ID in the HTML to enable sign-in.<br>
-    <span style="color:var(--muted);font-size:10px">Replace YOUR_GOOGLE_CLIENT_ID in the &lt;div id="g_id_onload"&gt; tag.</span></div>`;
-    note.classList.add('visible');
+function setGError(msg){
+  const el = document.getElementById('g-error');
+  if(msg){ el.textContent = msg; el.classList.add('visible'); }
+  else   { el.textContent = '';  el.classList.remove('visible'); }
+}
+
+function setGBtn(disabled){
+  const btn = document.getElementById('g-btn');
+  btn.disabled = disabled;
+}
+
+function cleanupPopup(){
+  clearInterval(popupWatchdog);
+  if(msgListener) window.removeEventListener('message', msgListener);
+  msgListener = null;
+  if(oauthPopup && !oauthPopup.closed) oauthPopup.close();
+  oauthPopup = null;
+}
+
+async function triggerGoogleOAuth(){
+  setGError(null);
+  document.getElementById('g-result').classList.remove('visible');
+
+  /* Build redirect_uri — must point back to this page */
+  const redirectUri = window.location.origin + window.location.pathname;
+  if(window.location.protocol === 'file:'){
+    setGError('⚠ OAuth requires a web server (http/https). Open this file via a local server or hosted URL.');
     return;
   }
-  google.accounts.id.initialize({
-    client_id: document.getElementById('g_id_onload').dataset.clientId,
-    callback: onGoogleSignIn
+
+  /* Optional injected user profile (kogiqa supports these query params) */
+  const name  = document.getElementById('g-name').value.trim();
+  const email = document.getElementById('g-email').value.trim();
+
+  const params = new URLSearchParams({
+    response_type: 'token',
+    client_id    : MOCK_CLIID,
+    redirect_uri : redirectUri,
+    scope        : 'openid email profile',
+    state        : Math.random().toString(36).slice(2),
+    ...(name  ? { name }  : {}),
+    ...(email ? { email } : {})
   });
-  google.accounts.id.prompt();
+
+  const authUrl = MOCK_AUTH + '?' + params.toString();
+
+  /* Centre the popup (desktop) */
+  const w = 480, h = 600;
+  const left = Math.max(0, (screen.width  - w) / 2 + (screen.availLeft || 0));
+  const top  = Math.max(0, (screen.height - h) / 2 + (screen.availTop  || 0));
+  const features = `width=${w},height=${h},left=${left},top=${top},toolbar=no,menubar=no,location=yes,scrollbars=yes`;
+
+  oauthPopup = window.open(authUrl, POPUP_NAME, features);
+
+  if(!oauthPopup || oauthPopup.closed){
+    setGError('⚠ Popup was blocked by your browser. Please allow popups for this site and try again.');
+    return;
+  }
+
+  setGBtn(true);
+  setGSpinner(true, 'Waiting for Google sign-in…');
+
+  /* Listen for the postMessage sent by the popup callback detector */
+  msgListener = async function(e){
+    if(!e.data || !e.data.__oauthCallback) return;
+    cleanupPopup();
+    setGSpinner(false);
+    setGBtn(false);
+
+    if(e.data.error){
+      setGError('OAuth error: ' + escHtml(e.data.error));
+      return;
+    }
+    if(!e.data.token){
+      setGError('No access token received — the mock may have returned an unexpected response.');
+      return;
+    }
+
+    await resolveUserInfo(e.data.token);
+  };
+  window.addEventListener('message', msgListener);
+
+  /* Watchdog: detect if user closes the popup manually */
+  popupWatchdog = setInterval(()=>{
+    if(oauthPopup && oauthPopup.closed){
+      cleanupPopup();
+      setGSpinner(false);
+      setGBtn(false);
+      setGError('Sign-in cancelled — popup was closed.');
+    }
+  }, 500);
+
+  /* Safety timeout: 3 minutes */
+  setTimeout(()=>{
+    if(oauthPopup && !oauthPopup.closed){
+      cleanupPopup();
+      setGSpinner(false);
+      setGBtn(false);
+      setGError('Sign-in timed out. Please try again.');
+    }
+  }, 180_000);
 }
 
-function onGoogleSignIn(response){
-  const payload = parseJwt(response.credential);
-  if(!payload) return;
-  const result = document.getElementById('g-result');
-  result.innerHTML =
-    `<div class="gname">✓ ${escHtml(payload.name)}</div>` +
-    `<div style="color:var(--muted)">${escHtml(payload.email)}</div>`;
-  result.classList.add('visible');
-}
-
-function parseJwt(token){
+async function resolveUserInfo(token){
+  setGSpinner(true, 'Fetching user profile…');
   try {
-    return JSON.parse(atob(token.split('.')[1]
-      .replace(/-/g,'+').replace(/_/g,'/')));
-  } catch(e){ return null; }
+    const res  = await fetch(MOCK_UINFO, {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if(!res.ok) throw new Error(`Userinfo ${res.status}`);
+    const info = await res.json();
+
+    const name  = info.name  || info.given_name || 'Test User';
+    const email = info.email || 'user@mock.test';
+    const initials = name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+
+    document.getElementById('g-avatar').textContent       = initials;
+    document.getElementById('g-display-name').textContent = name;
+    document.getElementById('g-display-email').textContent = email;
+    document.getElementById('g-token-preview').textContent = token.slice(0,40) + '…';
+    document.getElementById('g-result').classList.add('visible');
+    setGError(null);
+  } catch(err){
+    /* Userinfo call failed — still show we got the token (flow works) */
+    document.getElementById('g-avatar').textContent       = '?';
+    document.getElementById('g-display-name').textContent = 'Token received';
+    document.getElementById('g-display-email').textContent = 'Userinfo endpoint unreachable';
+    document.getElementById('g-token-preview').textContent = token.slice(0,40) + '…';
+    document.getElementById('g-result').classList.add('visible');
+  } finally {
+    setGSpinner(false);
+  }
 }
 </script>
 </body>
