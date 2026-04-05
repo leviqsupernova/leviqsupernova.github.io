@@ -29,10 +29,7 @@
     border-bottom: 1px solid var(--border); padding-bottom: 14px;
     margin-bottom: 20px; display: flex; align-items: baseline; gap: 12px;
   }
-  header h1 {
-    font-family: var(--display); font-weight: 800;
-    font-size: 20px; color: #fff; letter-spacing: -0.5px;
-  }
+  header h1 { font-family: var(--display); font-weight: 800; font-size: 20px; color: #fff; letter-spacing: -0.5px; }
   header span { color: var(--muted); font-size: 11px; }
   .section-label {
     font-family: var(--display); font-weight: 700;
@@ -48,11 +45,7 @@
   .check-row.pass    { border-left: 3px solid var(--pass); }
   .check-row.fail    { border-left: 3px solid var(--fail); }
   .check-row.running { border-left: 3px solid var(--pending); }
-  .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--muted); flex-shrink: 0;
-    transition: background 0.3s, box-shadow 0.3s;
-  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex-shrink: 0; transition: background 0.3s, box-shadow 0.3s; }
   .pass    .dot { background: var(--pass);    box-shadow: 0 0 8px var(--pass); }
   .fail    .dot { background: var(--fail);    box-shadow: 0 0 8px var(--fail); }
   .running .dot { background: var(--pending); animation: blink 0.8s infinite; }
@@ -62,6 +55,7 @@
   .pass    .check-status { color: var(--pass); }
   .fail    .check-status { color: var(--fail); }
   .running .check-status { color: var(--pending); }
+  .check-note { font-size: 10px; color: var(--muted); margin-left: auto; padding-left: 10px; max-width: 160px; text-align: right; }
 
   .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .btn {
@@ -83,7 +77,6 @@
   .btn.google-btn:hover    { background: #1e2b42; }
   .btn.google-btn:disabled { opacity: .5; cursor: not-allowed; pointer-events: none; }
 
-  /* camera */
   #video-wrap {
     display: none; background: #000;
     border: 1px solid var(--border); border-radius: 8px;
@@ -96,13 +89,19 @@
     border-radius: 50%; width: 30px; height: 30px; color: #fff; font-size: 14px;
     cursor: pointer; display: flex; align-items: center; justify-content: center;
   }
-  #cam-label {
+  #cam-back-btn {
     position: absolute; bottom: 8px; left: 10px;
+    background: rgba(0,0,0,.6); border: 1px solid rgba(255,255,255,.2);
+    border-radius: 4px; padding: 3px 10px;
+    font-size: 10px; color: var(--accent); letter-spacing: 1px;
+    cursor: pointer; font-family: var(--mono);
+  }
+  #cam-label {
+    position: absolute; bottom: 8px; right: 10px;
     background: rgba(0,0,0,.6); padding: 3px 8px; border-radius: 4px;
     font-size: 10px; color: var(--accent); letter-spacing: 1px;
   }
 
-  /* file */
   #file-input { display: none; }
   #file-info {
     margin-top: 8px; padding: 10px 14px; background: var(--surface);
@@ -112,7 +111,6 @@
   #file-info.visible { display: block; }
   #file-info .fname  { color: var(--accent); font-size: 12px; }
 
-  /* auth */
   .g-hint { font-size: 10px; color: var(--muted); margin-bottom: 8px; line-height: 1.7; }
   .g-hint b { color: var(--text); }
   .g-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
@@ -127,53 +125,23 @@
 
   #g-spinner { display: none; align-items: center; gap: 8px; margin-top: 8px; font-size: 11px; color: var(--pending); }
   #g-spinner.visible { display: flex; }
-  .spin {
-    width: 12px; height: 12px;
-    border: 2px solid rgba(255,171,0,.3); border-top-color: var(--pending);
-    border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0;
-  }
+  .spin { width: 12px; height: 12px; border: 2px solid rgba(255,171,0,.3); border-top-color: var(--pending); border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  #g-error {
-    margin-top: 8px; padding: 10px 14px;
-    background: rgba(255,61,107,.08); border: 1px solid rgba(255,61,107,.3);
-    border-radius: 6px; font-size: 11px; color: var(--fail); display: none;
-    white-space: pre-line;
-  }
+  #g-error { margin-top: 8px; padding: 10px 14px; background: rgba(255,61,107,.08); border: 1px solid rgba(255,61,107,.3); border-radius: 6px; font-size: 11px; color: var(--fail); display: none; white-space: pre-line; }
   #g-error.visible { display: block; }
 
-  #g-result {
-    margin-top: 8px; padding: 12px 14px;
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 6px; display: none; gap: 12px; align-items: flex-start;
-  }
+  #g-result { margin-top: 8px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; display: none; gap: 12px; align-items: flex-start; }
   #g-result.visible { display: flex; }
-  .g-avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; flex-shrink: 0; font-family: sans-serif;
-    color: #fff; font-weight: bold;
-  }
+  .g-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; font-family: sans-serif; color: #fff; font-weight: bold; }
   .g-info { flex: 1; }
   .g-name  { color: var(--pass); font-size: 13px; margin-bottom: 2px; }
   .g-email { color: var(--muted); font-size: 11px; margin-bottom: 6px; }
   .g-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
-  .g-badge {
-    display: inline-block; padding: 2px 6px; border-radius: 3px;
-    font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
-    background: rgba(0,230,118,.1); border: 1px solid rgba(0,230,118,.3); color: var(--pass);
-  }
+  .g-badge { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; background: rgba(0,230,118,.1); border: 1px solid rgba(0,230,118,.3); color: var(--pass); }
   .g-badge.blue { background: rgba(66,133,244,.1); border-color: rgba(66,133,244,.3); color: #4285F4; }
-  .g-token-row {
-    margin-top: 4px; font-size: 10px; color: var(--muted);
-    word-break: break-all; background: #060a0d;
-    border-radius: 4px; padding: 6px 8px; border: 1px solid var(--border);
-  }
-  .g-token-label {
-    color: var(--accent); font-size: 9px;
-    letter-spacing: 1px; margin-bottom: 2px; text-transform: uppercase;
-  }
-
+  .g-token-row { margin-top: 4px; font-size: 10px; color: var(--muted); word-break: break-all; background: #060a0d; border-radius: 4px; padding: 6px 8px; border: 1px solid var(--border); }
+  .g-token-label { color: var(--accent); font-size: 9px; letter-spacing: 1px; margin-bottom: 2px; text-transform: uppercase; }
   .divider { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
 </style>
 </head>
@@ -187,7 +155,9 @@
 <div class="section-label">Connectivity &amp; Capability</div>
 <div class="check-list">
   <div class="check-row running" id="row-http">
-    <div class="dot"></div><span class="check-name">HTTP Connection</span>
+    <div class="dot"></div>
+    <span class="check-name">Mixed-Content HTTP</span>
+    <span class="check-note">HTTP fetch from HTTPS page</span>
     <span class="check-status" id="st-http">checking…</span>
   </div>
   <div class="check-row running" id="row-js">
@@ -199,7 +169,9 @@
     <span class="check-status" id="st-cookie">checking…</span>
   </div>
   <div class="check-row running" id="row-3p">
-    <div class="dot"></div><span class="check-name">3rd-party Cookies</span>
+    <div class="dot"></div>
+    <span class="check-name">3rd-party Cookies</span>
+    <span class="check-note">Storage Access API</span>
     <span class="check-status" id="st-3p">checking…</span>
   </div>
   <div class="check-row running" id="row-popup">
@@ -223,6 +195,7 @@
 </div>
 <div id="video-wrap">
   <video id="video" autoplay playsinline muted></video>
+  <button id="cam-back-btn" onclick="stopCamera()">Back Cam</button>
   <div id="cam-label">LIVE</div>
   <button id="video-close" onclick="stopCamera()">✕</button>
 </div>
@@ -246,19 +219,16 @@
 <hr class="divider">
 
 <div class="section-label">Authentication — Google OAuth</div>
-
 <p class="g-hint">
   Opens a <b>real OAuth popup</b> — same window size, same <b>postMessage</b> handshake,
   same flow every website uses with Google.<br>
   The sign-in screen faithfully recreates Google's account picker (no real account needed).
   Optionally pre-fill a name &amp; email to personalise the test account.
 </p>
-
 <div class="g-inputs">
   <input id="g-name"  type="text"  placeholder="Name (optional)"  autocomplete="off">
   <input id="g-email" type="email" placeholder="Email (optional)" autocomplete="off">
 </div>
-
 <div class="btn-grid">
   <button class="btn google-btn" id="g-btn" onclick="triggerGoogleOAuth()">
     <svg width="18" height="18" viewBox="0 0 48 48">
@@ -270,7 +240,6 @@
     Sign in with Google
   </button>
 </div>
-
 <div id="g-spinner"><div class="spin"></div><span id="g-spinner-msg">Waiting for sign-in…</span></div>
 <div id="g-error"></div>
 <div id="g-result">
@@ -293,14 +262,12 @@
 <br>
 
 <script>
-/* ─── UA ────────────────────────────────────────────────────── */
 (function(){
-  const m = /Chrome\/(\d+)/.exec(navigator.userAgent);
+  var m = /Chrome\/(\d+)/.exec(navigator.userAgent);
   document.getElementById('ua-short').textContent =
     m ? 'Chrome ' + m[1] : navigator.userAgent.slice(0, 44);
 })();
 
-/* ─── helpers ───────────────────────────────────────────────── */
 function setRow(id, pass, label) {
   document.getElementById('row-' + id).className = 'check-row ' + (pass ? 'pass' : 'fail');
   document.getElementById('st-'  + id).textContent = label || (pass ? 'PASS' : 'FAIL');
@@ -309,53 +276,49 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-/* ─── JS ────────────────────────────────────────────────────── */
 setRow('js', true, 'PASS');
 
-/* ─── 1st-party cookies ─────────────────────────────────────── */
 (function(){
   if (!navigator.cookieEnabled) { setRow('cookie', false, 'DISABLED'); return; }
   document.cookie = 'diag1p=1; SameSite=Lax; path=/';
-  const ok = document.cookie.includes('diag1p');
+  var ok = document.cookie.includes('diag1p');
   setRow('cookie', ok, ok ? 'PASS' : 'BLOCKED');
 })();
 
-/* ─── 3rd-party cookies ─────────────────────────────────────── */
+/* ─── 3rd-party cookies — uses Storage Access API (authoritative) ─── */
 (function(){
-  let done = false;
-  const src = '<scr'+'ipt>try{document.cookie="tp=1;SameSite=None;Secure;path=/";'
-    +'parent.postMessage({tp:document.cookie.includes("tp")},"*")}catch(e)'
-    +'{parent.postMessage({tp:false},"*")}<\/scr'+'ipt>';
-  const blob = new Blob([src], {type:'text/html'});
-  const url  = URL.createObjectURL(blob);
-  const fr   = document.createElement('iframe');
-  fr.style.display = 'none'; fr.src = url;
-  document.body.appendChild(fr);
-  const h = function(e) {
-    if (typeof e.data?.tp === 'undefined') return;
-    done = true; window.removeEventListener('message', h);
-    fr.remove(); URL.revokeObjectURL(url);
-    setRow('3p', e.data.tp, e.data.tp ? 'PASS' : 'BLOCKED');
-  };
-  window.addEventListener('message', h);
-  setTimeout(function() {
-    if (done) return;
-    fr.remove(); URL.revokeObjectURL(url);
-    setRow('3p', false, 'UNDETECTABLE');
-  }, 2000);
+  if (typeof document.hasStorageAccess === 'function') {
+    document.hasStorageAccess().then(function(hasAccess) {
+      if (hasAccess) {
+        document.cookie = 'diag3p=1; SameSite=None; Secure; path=/';
+        var ok = document.cookie.includes('diag3p');
+        setRow('3p', ok, ok ? 'PASS' : 'BLOCKED');
+      } else {
+        setRow('3p', false, 'BLOCKED');
+      }
+    }).catch(function() {
+      document.cookie = 'diag3p=1; SameSite=None; Secure; path=/';
+      var ok = document.cookie.includes('diag3p');
+      setRow('3p', ok, ok ? 'PASS' : 'BLOCKED');
+    });
+  } else {
+    document.cookie = 'diag3p=1; SameSite=None; Secure; path=/';
+    var ok = document.cookie.includes('diag3p');
+    setRow('3p', ok, ok ? 'PASS' : 'BLOCKED');
+  }
 })();
 
-/* ─── HTTP ──────────────────────────────────────────────────── */
+/* ─── HTTP (mixed-content) ─── */
 fetch('http://neverssl.com/', {method:'HEAD', mode:'no-cors',
   cache:'no-store', signal:AbortSignal.timeout(6000)})
-  .then(function(){ setRow('http', true, 'CONNECTED'); })
+  .then(function(){ setRow('http', true, 'ALLOWED'); })
   .catch(function(err){
     var m = (err.message||'');
     setRow('http', false,
-      /mixed|insecure|blocked|Failed/i.test(m) ? 'MIXED-CONTENT BLOCKED' : 'UNREACHABLE');
+      /mixed|insecure|blocked|Failed/i.test(m) ? 'BLOCKED (normal)' : 'UNREACHABLE');
   });
 
-/* ─── camera ────────────────────────────────────────────────── */
+/* ─── camera ─── */
 var currentStream = null;
 function startCamera(mode) {
   if (currentStream) stopCamera();
@@ -364,7 +327,7 @@ function startCamera(mode) {
       currentStream = s;
       document.getElementById('video').srcObject = s;
       document.getElementById('video-wrap').style.display = 'block';
-      document.getElementById('cam-label').textContent = mode==='user'?'● SELFIE':'● BACK';
+      document.getElementById('cam-label').textContent = mode==='user' ? '● SELFIE' : '● LIVE';
     }).catch(function(e){ alert('Camera error: '+e.message); });
 }
 function stopCamera() {
@@ -373,7 +336,7 @@ function stopCamera() {
   document.getElementById('video-wrap').style.display = 'none';
 }
 
-/* ─── file ──────────────────────────────────────────────────── */
+/* ─── file ─── */
 var uploadedFile=null, uploadedURL=null;
 function onFileChosen(e) {
   var f = e.target.files[0]; if (!f) return;
@@ -393,114 +356,75 @@ function downloadFile() {
   var a=document.createElement('a'); a.href=uploadedURL; a.download=uploadedFile.name; a.click();
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   SELF-CONTAINED MOCK GOOGLE OAUTH POPUP
-   ───────────────────────────────────────────────────────────────
-   What this genuinely tests (identical to any real Google OAuth):
-     1. Popup window opens  → blocked? real browsers block it too
-     2. Cross-origin postMessage  → exact channel real OAuth uses
-     3. Popup-closed watchdog  → same interval MSAL / gapi use
-     4. Token delivery to parent  → mirrors the implicit flow
-
-   The popup HTML is compiled to a Blob URL at runtime so the
-   tool works on file://, localhost, and any hosted URL with
-   no backend and no third-party dependency.
-═══════════════════════════════════════════════════════════════ */
-
-var AVATAR_COLORS = ['#1a73e8','#34a853','#ea4335','#fbbc04',
-                     '#9c27b0','#00897b','#e64a19','#3949ab'];
+/* ─── Google OAuth mock ─── */
+var AVATAR_COLORS = ['#1a73e8','#34a853','#ea4335','#fbbc04','#9c27b0','#00897b','#e64a19','#3949ab'];
 
 function buildPopupHTML(prefillName, prefillEmail) {
   var accounts = [];
   if (prefillName || prefillEmail) {
-    accounts.push({
-      name : prefillName  || 'Test User',
-      email: prefillEmail || 'testuser@gmail.com',
-      color: AVATAR_COLORS[0]
-    });
+    accounts.push({ name: prefillName||'Test User', email: prefillEmail||'testuser@gmail.com', color: AVATAR_COLORS[0] });
   }
   accounts.push(
-    {name:'Alex Johnson', email:'alex.johnson@gmail.com', color:AVATAR_COLORS[1]},
-    {name:'Sam Rivera',   email:'sam.rivera@gmail.com',   color:AVATAR_COLORS[2]}
+    {name:'Alex Johnson', email:'alex.johnson@gmail.com', color: AVATAR_COLORS[1]},
+    {name:'Sam Rivera',   email:'sam.rivera@gmail.com',   color: AVATAR_COLORS[2]}
   );
 
-  var rows = accounts.map(function(a) {
+  var rows = accounts.map(function(a, i) {
     var init = a.name.split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
-    return '<li class="account" onclick="pick('+JSON.stringify(JSON.stringify(a))+')">'
-      +'<div class="av" style="background:'+a.color+'">'+init+'</div>'
-      +'<div class="ai"><div class="an">'+escHtml2(a.name)+'</div>'
-      +'<div class="ae">'+escHtml2(a.email)+'</div></div>'
+    return '<li class="account" onclick="pick('+i+')">'
+      +'<div class="av" style="background:'+a.color+'">'+escHtml(init)+'</div>'
+      +'<div class="ai"><div class="an">'+escHtml(a.name)+'</div>'
+      +'<div class="ae">'+escHtml(a.email)+'</div></div>'
       +'<div class="ch">\u203a</div></li>';
   }).join('');
 
-  function escHtml2(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  var accountsJson = JSON.stringify(accounts);
 
   return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
     +'<meta name="viewport" content="width=device-width,initial-scale=1">'
     +'<title>Sign in \u2013 Google Accounts</title>'
     +'<style>'
     +'*{box-sizing:border-box;margin:0;padding:0}'
-    +'body{font-family:"Google Sans",Roboto,Arial,sans-serif;background:#fff;'
-    +'min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px}'
+    +'body{font-family:"Google Sans",Roboto,Arial,sans-serif;background:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px}'
     +'.logo{margin-bottom:24px;align-self:flex-start}'
-    +'.logo svg{display:block}'
     +'.card{width:100%;max-width:400px;border:1px solid #dadce0;border-radius:8px;overflow:hidden}'
     +'.ch2{padding:28px 40px 20px;text-align:center;border-bottom:1px solid #e8eaed}'
     +'.ch2 h1{font-size:22px;color:#202124;font-weight:400;margin-bottom:8px}'
     +'.ch2 p{font-size:14px;color:#5f6368}'
     +'ul{list-style:none}'
-    +'.account{display:flex;align-items:center;gap:14px;padding:14px 20px;'
-    +'cursor:pointer;border-bottom:1px solid #f1f3f4;transition:background .12s}'
+    +'.account{display:flex;align-items:center;gap:14px;padding:14px 20px;cursor:pointer;border-bottom:1px solid #f1f3f4;transition:background .12s}'
     +'.account:last-child{border-bottom:none}'
     +'.account:hover{background:#f8f9fa}'
     +'.account:active{background:#e8f0fe}'
-    +'.av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;'
-    +'justify-content:center;font-size:16px;color:#fff;font-weight:500;flex-shrink:0}'
+    +'.av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:500;flex-shrink:0}'
     +'.ai{flex:1;min-width:0}'
-    +'.an{font-size:14px;color:#202124;font-weight:500;'
-    +'white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
-    +'.ae{font-size:12px;color:#5f6368;'
-    +'white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+    +'.an{font-size:14px;color:#202124;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+    +'.ae{font-size:12px;color:#5f6368;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
     +'.ch{color:#5f6368;font-size:20px}'
     +'.foot{padding:16px 20px;text-align:center}'
     +'.foot a{font-size:13px;color:#1a73e8;cursor:pointer;text-decoration:none}'
     +'.foot a:hover{text-decoration:underline}'
-    +'.done{display:none;flex-direction:column;align-items:center;'
-    +'gap:14px;padding:40px 24px;text-align:center}'
+    +'.done{display:none;flex-direction:column;align-items:center;gap:14px;padding:40px 24px;text-align:center}'
     +'.done.v{display:flex}'
-    +'.tick{width:52px;height:52px;border-radius:50%;background:#e6f4ea;'
-    +'display:flex;align-items:center;justify-content:center;font-size:26px}'
+    +'.tick{width:52px;height:52px;border-radius:50%;background:#e6f4ea;display:flex;align-items:center;justify-content:center;font-size:26px}'
     +'.done h2{font-size:20px;color:#202124;font-weight:400}'
     +'.done p{font-size:13px;color:#5f6368}'
     +'</style></head><body>'
-
-    +'<div class="logo">'
-    +'<svg width="74" height="24" viewBox="0 0 74 24"><text y="20" '
-    +'font-size="22" font-family="Product Sans,Arial,sans-serif" font-weight="400">'
-    +'<tspan fill="#4285F4">G</tspan><tspan fill="#EA4335">o</tspan>'
-    +'<tspan fill="#FBBC05">o</tspan><tspan fill="#4285F4">g</tspan>'
-    +'<tspan fill="#34A853">l</tspan><tspan fill="#EA4335">e</tspan>'
-    +'</text></svg></div>'
-
+    +'<div class="logo"><svg width="74" height="24" viewBox="0 0 74 24"><text y="20" font-size="22" font-family="Product Sans,Arial,sans-serif" font-weight="400"><tspan fill="#4285F4">G</tspan><tspan fill="#EA4335">o</tspan><tspan fill="#FBBC05">o</tspan><tspan fill="#4285F4">g</tspan><tspan fill="#34A853">l</tspan><tspan fill="#EA4335">e</tspan></text></svg></div>'
     +'<div class="card" id="picker">'
-    +'<div class="ch2"><h1>Choose an account</h1>'
-    +'<p>to continue to <strong>Browser Diagnostics</strong></p></div>'
+    +'<div class="ch2"><h1>Choose an account</h1><p>to continue to <strong>Browser Diagnostics</strong></p></div>'
     +'<ul>'+rows+'</ul>'
     +'<div class="foot"><a onclick="window.close()">Cancel</a></div>'
     +'</div>'
-
-    +'<div class="done" id="done"><div class="tick">\u2713</div>'
-    +'<h2>Signed in</h2><p id="dmsg">Returning\u2026</p></div>'
-
+    +'<div class="done" id="done"><div class="tick">\u2713</div><h2>Signed in</h2><p id="dmsg">Returning\u2026</p></div>'
     +'<script>'
+    +'var accounts='+accountsJson+';'
     +'var CHARS="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";'
-    +'function mkToken(){var b=crypto.getRandomValues(new Uint8Array(64));'
-    +'return Array.from(b).map(function(x){return CHARS[x%CHARS.length];}).join("")}'
-    +'function pick(j){'
-    +'  var a=JSON.parse(j);'
+    +'function mkToken(){var b=crypto.getRandomValues(new Uint8Array(64));return Array.from(b).map(function(x){return CHARS[x%CHARS.length];}).join("")}'
+    +'function pick(idx){'
+    +'  var a=accounts[idx];'
     +'  var tok=mkToken();'
-    +'  window.opener&&window.opener.postMessage('
-    +'    {__mockOauth:true,name:a.name,email:a.email,color:a.color,token:tok},"*");'
+    +'  if(window.opener){window.opener.postMessage({__mockOauth:true,name:a.name,email:a.email,color:a.color,token:tok},"*");}'
     +'  document.getElementById("picker").style.display="none";'
     +'  var d=document.getElementById("done");'
     +'  document.getElementById("dmsg").textContent="Signed in as "+a.name+". Returning\u2026";'
@@ -510,7 +434,6 @@ function buildPopupHTML(prefillName, prefillEmail) {
     +'<\/script></body></html>';
 }
 
-/* ─── UI helpers ────────────────────────────────────────────── */
 function setGSpinner(on, msg) {
   document.getElementById('g-spinner').classList.toggle('visible', on);
   if (msg) document.getElementById('g-spinner-msg').textContent = msg;
@@ -524,64 +447,50 @@ function setGBtn(disabled) {
   document.getElementById('g-btn').disabled = disabled;
 }
 
-var oauthPopup = null, watchdog = null, msgH = null;
+var oauthPopup=null, watchdog=null, msgH=null, pendingBlobUrl=null;
 
 function cleanupOAuth() {
-  clearInterval(watchdog); watchdog = null;
-  if (msgH) { window.removeEventListener('message', msgH); msgH = null; }
+  clearInterval(watchdog); watchdog=null;
+  if (msgH) { window.removeEventListener('message', msgH); msgH=null; }
   if (oauthPopup && !oauthPopup.closed) oauthPopup.close();
-  oauthPopup = null;
+  oauthPopup=null;
+  if (pendingBlobUrl) { URL.revokeObjectURL(pendingBlobUrl); pendingBlobUrl=null; }
 }
 
 function triggerGoogleOAuth() {
   setGError(null);
   document.getElementById('g-result').classList.remove('visible');
-
   var prefillName  = document.getElementById('g-name').value.trim();
   var prefillEmail = document.getElementById('g-email').value.trim();
-
-  /* Build popup as a Blob URL — works on any origin including file:// */
   var html = buildPopupHTML(prefillName, prefillEmail);
   var blob = new Blob([html], {type:'text/html'});
-  var blobUrl = URL.createObjectURL(blob);
-
-  /* Centre the popup on screen */
+  pendingBlobUrl = URL.createObjectURL(blob);
   var W=450, H=580;
-  var left = Math.round((screen.width  - W) / 2 + (screen.availLeft || 0));
-  var top  = Math.round((screen.height - H) / 2 + (screen.availTop  || 0));
-  var feat = 'width='+W+',height='+H+',left='+left+',top='+top
-           + ',toolbar=no,menubar=no,location=no,scrollbars=yes';
-
-  oauthPopup = window.open(blobUrl, 'GoogleSignIn', feat);
-  URL.revokeObjectURL(blobUrl); /* revoke immediately after the window has it */
-
+  var left = Math.round((screen.width  - W) / 2 + (screen.availLeft||0));
+  var top  = Math.round((screen.height - H) / 2 + (screen.availTop||0));
+  var feat = 'width='+W+',height='+H+',left='+left+',top='+top+',toolbar=no,menubar=no,location=no,scrollbars=yes';
+  oauthPopup = window.open(pendingBlobUrl, 'GoogleSignIn', feat);
   if (!oauthPopup || oauthPopup.closed) {
+    URL.revokeObjectURL(pendingBlobUrl); pendingBlobUrl=null;
     setRow('popup', false, 'BLOCKED');
-    setGError('⚠ Browser blocked the sign-in popup.\nAllow popups for this site and try again.');
+    setGError('\u26a0 Browser blocked the sign-in popup.\nAllow popups for this site and try again.');
     return;
   }
-
   setRow('popup', true, 'PASS');
   setGBtn(true);
-  setGSpinner(true, 'Waiting for account selection…');
-
-  /* Listen for account selection from popup */
+  setGSpinner(true, 'Waiting for account selection\u2026');
   msgH = function(e) {
     if (!e.data || !e.data.__mockOauth) return;
     cleanupOAuth(); setGSpinner(false); setGBtn(false);
     showOAuthResult(e.data);
   };
   window.addEventListener('message', msgH);
-
-  /* Watchdog: detect manual popup close */
   watchdog = setInterval(function() {
     if (oauthPopup && oauthPopup.closed) {
       cleanupOAuth(); setGSpinner(false); setGBtn(false);
-      setGError('Sign-in cancelled — window was closed.');
+      setGError('Sign-in cancelled \u2014 window was closed.');
     }
   }, 400);
-
-  /* Safety timeout (5 min) */
   setTimeout(function() {
     if (oauthPopup && !oauthPopup.closed) {
       cleanupOAuth(); setGSpinner(false); setGBtn(false);
@@ -597,7 +506,7 @@ function showOAuthResult(data) {
   av.style.background = data.color || AVATAR_COLORS[0];
   document.getElementById('g-display-name').textContent  = data.name;
   document.getElementById('g-display-email').textContent = data.email;
-  document.getElementById('g-token-preview').textContent = data.token.slice(0,52)+'…';
+  document.getElementById('g-token-preview').textContent = data.token.slice(0,52)+'\u2026';
   document.getElementById('g-result').classList.add('visible');
 }
 </script>
