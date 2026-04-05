@@ -77,29 +77,21 @@
   .btn.google-btn:hover    { background: #1e2b42; }
   .btn.google-btn:disabled { opacity: .5; cursor: not-allowed; pointer-events: none; }
 
+  /* Camera preview: pure video only, no overlay text/buttons */
   #video-wrap {
-    display: none; background: #000;
-    border: 1px solid var(--border); border-radius: 8px;
-    overflow: hidden; margin-top: 10px; position: relative;
+    display: none;
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 10px;
   }
-  #video-wrap video { width: 100%; max-height: 280px; object-fit: cover; display: block; }
-  #video-close {
-    position: absolute; top: 8px; right: 8px;
-    background: rgba(0,0,0,.6); border: 1px solid rgba(255,255,255,.2);
-    border-radius: 50%; width: 30px; height: 30px; color: #fff; font-size: 14px;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-  }
-  #cam-back-btn {
-    position: absolute; bottom: 8px; left: 10px;
-    background: rgba(0,0,0,.6); border: 1px solid rgba(255,255,255,.2);
-    border-radius: 4px; padding: 3px 10px;
-    font-size: 10px; color: var(--accent); letter-spacing: 1px;
-    cursor: pointer; font-family: var(--mono);
-  }
-  #cam-label {
-    position: absolute; bottom: 8px; right: 10px;
-    background: rgba(0,0,0,.6); padding: 3px 8px; border-radius: 4px;
-    font-size: 10px; color: var(--accent); letter-spacing: 1px;
+  #video-wrap video {
+    width: 100%;
+    max-height: 280px;
+    object-fit: cover;
+    display: block;
+    background: #000;
   }
 
   #file-input { display: none; }
@@ -191,9 +183,6 @@
 </div>
 <div id="video-wrap">
   <video id="video" autoplay playsinline muted></video>
-  <button id="cam-back-btn" onclick="stopCamera()">Back Cam</button>
-  <div id="cam-label">LIVE</div>
-  <button id="video-close" onclick="stopCamera()">✕</button>
 </div>
 
 <hr class="divider">
@@ -314,19 +303,35 @@ fetch('http://neverssl.com/', {method:'HEAD', mode:'no-cors',
 
 /* ─── camera ─── */
 var currentStream = null;
+
 function startCamera(mode) {
   if (currentStream) stopCamera();
-  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:mode}},audio:false})
-    .then(function(s){
-      currentStream = s;
-      document.getElementById('video').srcObject = s;
-      document.getElementById('video-wrap').style.display = 'block';
-      document.getElementById('cam-label').textContent = mode==='user';
-    }).catch(function(e){ alert('Camera error: '+e.message); });
+
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: { ideal: mode } },
+    audio: false
+  }).then(function(s) {
+    currentStream = s;
+    var video = document.getElementById('video');
+    video.srcObject = s;
+    document.getElementById('video-wrap').style.display = 'block';
+
+    var playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(function(){});
+    }
+  }).catch(function(e) {
+    alert('Camera error: ' + e.message);
+  });
 }
+
 function stopCamera() {
-  if (currentStream) { currentStream.getTracks().forEach(function(t){t.stop();}); currentStream=null; }
-  document.getElementById('video').srcObject = null;
+  if (currentStream) {
+    currentStream.getTracks().forEach(function(t) { t.stop(); });
+    currentStream = null;
+  }
+  var video = document.getElementById('video');
+  video.srcObject = null;
   document.getElementById('video-wrap').style.display = 'none';
 }
 
