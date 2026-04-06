@@ -325,18 +325,26 @@ function escHtml(s) {
 }
 
 /* ─── HTTP (mixed-content) ─── */
-fetch('http://neverssl.com/', {
-  method:'HEAD',
-  mode:'no-cors',
-  cache:'no-store',
-  signal: AbortSignal.timeout(6000)
-})
-  .then(function(){ setRow('http', true, 'ALLOWED'); })
+(function(){
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 6000);
+  fetch('http://neverssl.com/', {
+    method:'HEAD',
+    mode:'no-cors',
+    cache:'no-store',
+    signal: controller.signal
+  })
+  .then(function(){
+    clearTimeout(timeoutId);
+    setRow('http', true, 'ALLOWED');
+  })
   .catch(function(err){
+    clearTimeout(timeoutId);
     var m = (err && err.message) || '';
     setRow('http', false,
       /mixed|insecure|blocked|Failed/i.test(m) ? 'BLOCKED' : 'UNREACHABLE');
   });
+})();
 
 setRow('js', true, 'PASS');
 
